@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { verifyId } from '../store/actions'
+import { useNavigation } from '@react-navigation/native'
 import Modal from 'react-native-modal';
 
 export default function QRCamera() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation()
 
   useEffect(() => {
     (async () => {
@@ -16,6 +18,10 @@ export default function QRCamera() {
     })();
   }, []);
 
+
+  function goBack() {
+    navigation.navigate('Service')
+  }
   
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -60,7 +66,7 @@ export default function QRCamera() {
         <View style={{flex: 1}}>
           <Text>Sending data...</Text>
 
-          <Button title="Hide modal" onPress={toggleModal} />
+          <Button title="Hide modal" onPress={goBack} />
         </View>
       </Modal>
       {/* Modal end */}
