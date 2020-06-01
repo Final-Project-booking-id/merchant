@@ -7,11 +7,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 function merchantPage() {
   const navigation = useNavigation()
 
-  function goToMap() {
-    navigation.navigate('Map')
+  function goToQueue() {
+    navigation.navigate('Queue')
   }
 
-  function goToService() {
+  function goToDetail() {
     navigation.navigate('Service')
   }
 
@@ -36,7 +36,7 @@ function merchantPage() {
         </View>
         <View style={styles.option}>
           <TouchableOpacity
-            onPress={goToService}
+            onPress={goToQueue}
           >
             <LinearGradient
               colors={['#f86674', '#f9af8b']}
@@ -56,7 +56,7 @@ function merchantPage() {
           >
             <TouchableOpacity
               style={styles.secondarybtn}
-              onPress={goToMap}
+              onPress={goToDetail}
             >
               <Text style={styles.font}>Detail</Text>
             </TouchableOpacity>
