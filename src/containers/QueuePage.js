@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Modal from 'react-native-modal';
+// import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
@@ -14,6 +14,10 @@ function merchantPage() {
 
   function goToDetail() {
     navigation.navigate('Service')
+  }
+
+  function goToCamera() {
+    navigation.navigate('QRCamera')
   }
 
   return (
@@ -71,7 +75,7 @@ function merchantPage() {
         </View>
         <View style={styles.option}>
           <TouchableOpacity
-            onPress={goToQueue}
+            onPress={goToCamera}
           >
             <LinearGradient
               colors={['#f86674', '#f9af8b']}
@@ -100,13 +104,13 @@ function merchantPage() {
       </View>
       {/*  sampai sini */}
       
-    <Modal
+    {/* <Modal
     isVisible={isModalVisible}
     onBackdropPress={() => setModalVisible(false)}>
     <View style={{flex: 1}}>
         <Text>I am the modal content!</Text>
     </View>
-    </Modal>
+    </Modal> */}
 
     </View>
   )
