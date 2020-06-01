@@ -55,19 +55,27 @@ export const fetchQueue = (id) => {
 }
 
 const verifyId = (token) => {
-    return axios({
+    axios({
         method: 'post',
         url: baseUrl + '/verify',
         data: {
             token
         }
     })
-        .then(response => {
-            alert(`${response} received`);
-        })
-        .catch(err => {
-            alert(err)
-        })
+    .then(response => {
+        alert(`${response} received`);
+        delete response.iat
+        delete response.updatedAt
+        delete response.createdAt
+        response.status = 'On Going'
+        return axios ({ method: 'patch', url: baseUrl + `/queue/${response.id}`, data: response })
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 
 export const updateStatus = (id, status) => {
