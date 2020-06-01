@@ -9,7 +9,7 @@ const Stack = createStackNavigator()
 export default function NavigationPage() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator headerMode='none'>
                 <Stack.Screen name="Service" component={Service}></Stack.Screen>
                 <Stack.Screen name="Queue" component={Queue}></Stack.Screen>
             </Stack.Navigator>
