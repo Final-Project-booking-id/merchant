@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { verifyId } from '../store/actions'
+import Modal from 'react-native-modal';
 
 export default function QRCamera() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -13,9 +16,21 @@ export default function QRCamera() {
     })();
   }, []);
 
+  
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  //Ini function buat proses hasil scannya
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    if (typeof data == 'string') {
+      toggleModal()
+      // verifyId(data) //Data nya berisi token
+    }
+    else {
+      alert(`QR Content of type ${type} is not our valid token!`)
+    }
   };
 
   if (hasPermission === null) {
@@ -38,6 +53,19 @@ export default function QRCamera() {
       />
 
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    
+      {/* Modal begins */}
+      <Modal isVisible={isModalVisible}
+      onBackdropPress={() => setModalVisible(false)}>
+        <View style={{flex: 1}}>
+          <Text>Sending data...</Text>
+
+          <Button title="Hide modal" onPress={toggleModal} />
+        </View>
+      </Modal>
+      {/* Modal end */}
+
     </View>
+
   );
 }
