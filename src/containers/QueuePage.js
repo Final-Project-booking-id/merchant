@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
@@ -7,6 +7,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 
 function merchantPage() {
   const navigation = useNavigation()
+  const [ModalVisible, setModalVisible] = useState(false)
+
+  const cancelDetail = () => {
+      setModalVisible(true)
+  }
 
   function goToQueue() {
     navigation.navigate('Queue')
@@ -17,6 +22,7 @@ function merchantPage() {
   }
 
   return (
+    <>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={{
@@ -91,7 +97,7 @@ function merchantPage() {
           >
             <TouchableOpacity
               style={styles.secondarybtn}
-              onPress={goToDetail}
+              onPress={cancelDetail}
             >
               <Text style={styles.font}>Cancel</Text>
             </TouchableOpacity>
@@ -100,15 +106,18 @@ function merchantPage() {
       </View>
       {/*  sampai sini */}
       
-    <Modal
-    isVisible={isModalVisible}
-    onBackdropPress={() => setModalVisible(false)}>
-    <View style={{flex: 1}}>
-        <Text>I am the modal content!</Text>
-    </View>
-    </Modal>
 
     </View>
+    <Modal
+    isVisible={ModalVisible}
+    onBackdropPress={() => setModalVisible(false)}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={ styles.modal }>
+            <Text>I am the modal content!</Text>
+        </View>
+    </View>
+    </Modal>
+    </>
   )
 }
 
@@ -185,6 +194,12 @@ const styles = StyleSheet.create({
   font: {
     color: '#eff2f6',
     fontWeight: '600'
+  },
+  modal: {
+      height: '25%',
+      width: '95%',
+      backgroundColor: 'white',
+      borderRadius: 10
   }
 })
 
