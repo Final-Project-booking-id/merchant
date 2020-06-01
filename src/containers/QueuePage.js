@@ -116,8 +116,8 @@ function merchantPage() {
     isVisible={ModalVisible}
     onBackdropPress={() => setModalVisible(false)}>
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={ styles.modal }>
-            <Text>I am the modal content!</Text>
+        <View style={ styles.modalStyle }>
+            <Text style={ styles.modalText }>I am the modal content!</Text>
         </View>
     </View>
     </Modal>
@@ -204,6 +204,28 @@ const styles = StyleSheet.create({
       width: '95%',
       backgroundColor: 'white',
       borderRadius: 10
+  },
+  modalStyle: {
+    // flex: 1,
+    height: '50%',
+    width: '95%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#3d4558'
+  },
+  modalBtn: {
+    width: 80,
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  modalText: {
+    marginLeft: 10,
+    color: '#eff2f6',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })
 

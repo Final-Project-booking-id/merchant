@@ -8,6 +8,7 @@ import Modal from 'react-native-modal';
 export default function QRCamera() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  // const [qrdata, setQrdata] = useState('')
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation()
 
@@ -63,10 +64,10 @@ export default function QRCamera() {
       {/* Modal begins */}
       <Modal isVisible={isModalVisible}
       onBackdropPress={() => setModalVisible(false)}>
-        <View style={{flex: 1}}>
-          <Text>Sending data...</Text>
+        <View style={styles.modalStyle}>
+          <Text style={styles.modalText}>Sending data...</Text>
 
-          <Button title="Hide modal" onPress={goBack} />
+          <Button style={styles.btn} title="Back" onPress={goBack} />
         </View>
       </Modal>
       {/* Modal end */}
@@ -75,3 +76,28 @@ export default function QRCamera() {
 
   );
 }
+
+const styles = StyleSheet.create({
+  modalStyle: {
+    // flex: 1,
+    height: '50%',
+    width: '95%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#3d4558'
+  },
+  modalBtn: {
+    width: 80,
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  modalText: {
+    marginLeft: 10,
+    color: '#eff2f6',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
+})
