@@ -4,10 +4,18 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useDispatch } from 'react-redux';
+import { fetchQueue } from "../store/actions";
 
-function merchantPage() {
+function merchantPage({ route }) {
   const navigation = useNavigation()
+  const { id } = route.params
+  const dispatch = useDispatch()
   const [ModalVisible, setModalVisible] = useState(false)
+  
+  useEffect(() => {
+    dispatch(fetchQueue(id))
+  }, [dispatch])
 
   const cancelDetail = () => {
       setModalVisible(true)

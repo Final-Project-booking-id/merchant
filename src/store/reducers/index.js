@@ -1,7 +1,8 @@
-import { SET_QUEUES } from '../actions'
+import { SET_QUEUES, SET_SERVICES } from '../actions'
 
 const appState = {
-    test: "test",
+    merchantId: 1,
+    services: [],
     queues: []
 }
 
@@ -10,7 +11,8 @@ export default function reducer(state = appState, action) {
     switch (type) {
         case SET_QUEUES:
             return { ...state, queues: payload }
-
+        case SET_SERVICES:
+            return { ...state, services: payload }
         default:
             return state
     }

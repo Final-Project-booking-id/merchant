@@ -3,12 +3,20 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchService } from "../store/actions";
 
 function merchantPage() {
   const navigation = useNavigation()
+  const merchantId = useSelector(state => state.merchantId)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchService(merchantId))
+  }, [dispatch])
 
   function goToQueue() {
-    navigation.navigate('Queue')
+    const id = 1
+    navigation.navigate('Queue', { id })
   }
 
   function goToDetail() {
