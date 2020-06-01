@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { verifyId } from './store/actions'
 
 export default function QRCamera() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -13,9 +14,10 @@ export default function QRCamera() {
     })();
   }, []);
 
+  //Ini function buat proses hasil scannya
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    verifyId(data) //Data nya token
   };
 
   if (hasPermission === null) {
