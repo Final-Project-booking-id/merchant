@@ -1,52 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-native-modal';
+import React, { useEffect } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchQueue } from "../store/actions";
-import QueueCard from "./QueueCard"
+import { useDispatch, useSelector } from 'react-redux'
 
-function merchantPage({ route }) {
+export default function card(data) {
   const navigation = useNavigation()
-  const { id } = route.params
-  const dispatch = useDispatch()
-  const queue = useSelector(state => state.queues)
-  const [ModalVisible, setModalVisible] = useState(false)
-  
-  useEffect(() => {
-    dispatch(fetchQueue(id))
-  }, [dispatch])
 
-  function goToQueue() {
-    navigation.navigate('Queue')
+  function goToQueue(id) {
+    navigation.navigate('Queue', { id })
   }
 
+  function goToDetail() {
+    navigation.navigate('Service')
+  }
 
-  return (
-    <>
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={{
-          color: '#eff2f6',
-          fontSize: 25,
-          fontWeight: '500'
-        }}>Service:
-          <Text style={{
-            fontWeight: 'bold'
-          }}> Cuci Mobil</Text>
-        </Text>
-      </View>
-      {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      <View style={styles.card}>
+  return(
+    <View style={styles.card}>
         <View>
-            <Text style={styles.title}>F 1122 EE</Text>
-            <Text style={styles.desc}>On Going</Text>
+            <Text style={styles.title}>{data.service.name}</Text>
+            <Text style={styles.desc}>Est. Time: {data.service.estimation_time} </Text>
         </View>
         <View style={styles.option}>
           <TouchableOpacity
-            onPress={goToQueue}
+            onPress={() => {
+              goToQueue(data.service.id)
+            }}
           >
             <LinearGradient
               colors={['#f86674', '#f9af8b']}
@@ -54,11 +34,11 @@ function merchantPage({ route }) {
               start={{ x: 0.1, y: 0.1 }}
               end={{ x: 1.0, y: 0.1 }}
             >
-              <Text style={styles.font}>Check Out</Text>
+              <Text style={styles.font}>Queues</Text>
             </LinearGradient>
           </TouchableOpacity>
 
-          {/* <LinearGradient
+          <LinearGradient
             colors={['#f86674', '#f9af8b']}
             style={styles.borderbtn}
             start={{ x: 0.1, y: 0.1 }}
@@ -68,28 +48,11 @@ function merchantPage({ route }) {
               style={styles.secondarybtn}
               onPress={goToDetail}
             >
-              <Text style={styles.font}>Cancel</Text>
+              <Text style={styles.font}>Detail</Text>
             </TouchableOpacity>
-          </LinearGradient> */}
+          </LinearGradient>
         </View>
       </View>
-      {queue.map(el => {
-          return <QueueCard order={el} />
-      })}
-      {/*  sampai sini */}
-      
-
-    </View>
-    <Modal
-    isVisible={ModalVisible}
-    onBackdropPress={() => setModalVisible(false)}>
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={ styles.modalStyle }>
-            <Text style={ styles.modalText }>Order Cancelled</Text>
-        </View>
-    </View>
-    </Modal>
-    </>
   )
 }
 
@@ -166,13 +129,5 @@ const styles = StyleSheet.create({
   font: {
     color: '#eff2f6',
     fontWeight: '600'
-  },
-  modal: {
-      height: '25%',
-      width: '95%',
-      backgroundColor: 'white',
-      borderRadius: 10
   }
 })
-
-export default merchantPage

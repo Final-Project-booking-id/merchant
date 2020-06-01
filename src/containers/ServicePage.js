@@ -5,11 +5,16 @@ import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchService } from "../store/actions";
+import ServiceCard from "./ServiceCard"
 
 function merchantPage() {
   const navigation = useNavigation()
   const merchantId = useSelector(state => state.merchantId)
+  const services = useSelector(state => state.services)
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchService(merchantId))
+  }, [])
   useEffect(() => {
     dispatch(fetchService(merchantId))
   }, [dispatch])
@@ -19,9 +24,7 @@ function merchantPage() {
     navigation.navigate('Queue', { id })
   }
 
-  function goToDetail() {
-    navigation.navigate('Service')
-  }
+  
 
   return (
     <View style={styles.container}>
@@ -37,40 +40,10 @@ function merchantPage() {
         </Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      <View style={styles.card}>
-        <View>
-            <Text style={styles.title}>Cuci Mobil</Text>
-            <Text style={styles.desc}>Current Queues: 2 </Text>
-        </View>
-        <View style={styles.option}>
-          <TouchableOpacity
-            onPress={goToQueue}
-          >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.primarybtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
-            >
-              <Text style={styles.font}>Queues</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          <LinearGradient
-            colors={['#f86674', '#f9af8b']}
-            style={styles.borderbtn}
-            start={{ x: 0.1, y: 0.1 }}
-            end={{ x: 1.0, y: 0.1 }}
-          >
-            <TouchableOpacity
-              style={styles.secondarybtn}
-              onPress={goToDetail}
-            >
-              <Text style={styles.font}>Detail</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-      </View>
+      {services.map(el => {
+        return <ServiceCard service={el}></ServiceCard>
+      })
+      }
       {/*  sampai sini */}
       
     </View>

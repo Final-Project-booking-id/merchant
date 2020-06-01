@@ -4,49 +4,37 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchQueue } from "../store/actions";
-import QueueCard from "./QueueCard"
+import { useDispatch, useSelector } from 'react-redux'
 
-function merchantPage({ route }) {
+export default function card(data) {
   const navigation = useNavigation()
-  const { id } = route.params
-  const dispatch = useDispatch()
-  const queue = useSelector(state => state.queues)
   const [ModalVisible, setModalVisible] = useState(false)
-  
-  useEffect(() => {
-    dispatch(fetchQueue(id))
-  }, [dispatch])
 
-  function goToQueue() {
-    navigation.navigate('Queue')
+  function goToQueue(id) {
+    navigation.navigate('Queue', { id })
   }
 
+  function goToCamera() {
+    navigation.navigate('QRCamera')
+  }
 
-  return (
-    <>
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={{
-          color: '#eff2f6',
-          fontSize: 25,
-          fontWeight: '500'
-        }}>Service:
-          <Text style={{
-            fontWeight: 'bold'
-          }}> Cuci Mobil</Text>
-        </Text>
-      </View>
-      {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      <View style={styles.card}>
+  function goToDetail() {
+    navigation.navigate('Service')
+  }
+
+  const cancelDetail = () => {
+    setModalVisible(true)
+}
+
+  return(
+    <View style={styles.card}>
         <View>
-            <Text style={styles.title}>F 1122 EE</Text>
-            <Text style={styles.desc}>On Going</Text>
+            <Text style={styles.title}>{data.order.CustomerId}</Text>
+            <Text style={styles.desc}>{data.order.status}</Text>
         </View>
         <View style={styles.option}>
           <TouchableOpacity
-            onPress={goToQueue}
+            onPress={goToCamera}
           >
             <LinearGradient
               colors={['#f86674', '#f9af8b']}
@@ -54,11 +42,11 @@ function merchantPage({ route }) {
               start={{ x: 0.1, y: 0.1 }}
               end={{ x: 1.0, y: 0.1 }}
             >
-              <Text style={styles.font}>Check Out</Text>
+              <Text style={styles.font}>Scan</Text>
             </LinearGradient>
           </TouchableOpacity>
 
-          {/* <LinearGradient
+          <LinearGradient
             colors={['#f86674', '#f9af8b']}
             style={styles.borderbtn}
             start={{ x: 0.1, y: 0.1 }}
@@ -66,30 +54,23 @@ function merchantPage({ route }) {
           >
             <TouchableOpacity
               style={styles.secondarybtn}
-              onPress={goToDetail}
+              onPress={cancelDetail}
             >
               <Text style={styles.font}>Cancel</Text>
             </TouchableOpacity>
-          </LinearGradient> */}
+          </LinearGradient>
         </View>
-      </View>
-      {queue.map(el => {
-          return <QueueCard order={el} />
-      })}
-      {/*  sampai sini */}
-      
 
-    </View>
-    <Modal
-    isVisible={ModalVisible}
-    onBackdropPress={() => setModalVisible(false)}>
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={ styles.modalStyle }>
-            <Text style={ styles.modalText }>Order Cancelled</Text>
+        <Modal
+        isVisible={ModalVisible}
+        onBackdropPress={() => setModalVisible(false)}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={ styles.modalStyle }>
+                <Text style={ styles.modalText }>Order Cancelled</Text>
+            </View>
         </View>
-    </View>
-    </Modal>
-    </>
+        </Modal>
+      </View>
   )
 }
 
@@ -167,12 +148,26 @@ const styles = StyleSheet.create({
     color: '#eff2f6',
     fontWeight: '600'
   },
-  modal: {
-      height: '25%',
-      width: '95%',
-      backgroundColor: 'white',
-      borderRadius: 10
+  modalStyle: {
+    // flex: 1,
+    height: '25%',
+    width: '95%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#3d4558'
+  },
+  modalBtn: {
+    width: 80,
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  modalText: {
+    marginLeft: 10,
+    color: '#eff2f6',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })
-
-export default merchantPage
