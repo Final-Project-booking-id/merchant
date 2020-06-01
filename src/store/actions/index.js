@@ -26,6 +26,9 @@ export const verifyId = (token) => {
         .then(response => {
             alert(`${response} received`);
         })
+        .catch(err => {
+            alert(err)
+        })
 }
 
 export const updateStatus = (id, status) => {
