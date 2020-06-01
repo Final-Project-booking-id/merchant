@@ -4,49 +4,55 @@ import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchService } from "../store/actions";
-import ServiceCard from "./ServiceCard"
 
-function merchantPage() {
+export default function card(data) {
   const navigation = useNavigation()
-  const merchantId = useSelector(state => state.merchantId)
-  const services = useSelector(state => state.services)
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchService(merchantId))
-  }, [])
-  useEffect(() => {
-    dispatch(fetchService(merchantId))
-  }, [dispatch])
 
-  function goToQueue() {
-    const id = 1
+  function goToQueue(id) {
     navigation.navigate('Queue', { id })
   }
 
-  
+  function goToDetail() {
+    navigation.navigate('Service')
+  }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={{
-          color: '#eff2f6',
-          fontSize: 25,
-          fontWeight: '500'
-        }}>Your
-          <Text style={{
-            fontWeight: 'bold'
-          }}> Services</Text>
-        </Text>
+  return(
+    <View style={styles.card}>
+        <View>
+            <Text style={styles.title}>{data.service.name}</Text>
+            <Text style={styles.desc}>Est. Time: {data.service.estimation_time} </Text>
+        </View>
+        <View style={styles.option}>
+          <TouchableOpacity
+            onPress={() => {
+              goToQueue(data.service.id)
+            }}
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.primarybtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              <Text style={styles.font}>Queues</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <LinearGradient
+            colors={['#f86674', '#f9af8b']}
+            style={styles.borderbtn}
+            start={{ x: 0.1, y: 0.1 }}
+            end={{ x: 1.0, y: 0.1 }}
+          >
+            <TouchableOpacity
+              style={styles.secondarybtn}
+              onPress={goToDetail}
+            >
+              <Text style={styles.font}>Detail</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
-      {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {services.map(el => {
-        return <ServiceCard service={el}></ServiceCard>
-      })
-      }
-      {/*  sampai sini */}
-      
-    </View>
   )
 }
 
@@ -125,5 +131,3 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   }
 })
-
-export default merchantPage

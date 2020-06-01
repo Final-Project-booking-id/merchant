@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://192.168.1.9:3000'
+const baseUrl = 'http://192.168.88.8:3000'
 
 
 export const SET_QUEUES = 'SET_QUEUES'
@@ -30,6 +30,7 @@ export const fetchService = (id) => {
             url: baseUrl + `/service/${id}`,
         })
         .then(response => {
+            console.log(response.data)
             dispatch(setServices(response.data))
         })
         .catch(err => {
