@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { verifyId } from './store/actions'
+import { verifyId } from '../store/actions'
 import Modal from 'react-native-modal';
 
 export default function QRCamera() {
@@ -26,7 +26,7 @@ export default function QRCamera() {
     setScanned(true);
     if (typeof data == 'string') {
       toggleModal()
-      verifyId(data) //Data nya berisi token
+      // verifyId(data) //Data nya berisi token
     }
     else {
       alert(`QR Content of type ${type} is not our valid token!`)
@@ -53,14 +53,19 @@ export default function QRCamera() {
       />
 
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    
+      {/* Modal begins */}
+      <Modal isVisible={isModalVisible}
+      onBackdropPress={() => setModalVisible(false)}>
+        <View style={{flex: 1}}>
+          <Text>Sending data...</Text>
+
+          <Button title="Hide modal" onPress={toggleModal} />
+        </View>
+      </Modal>
+      {/* Modal end */}
+
     </View>
 
-    <Modal isVisible={isModalVisible}>
-      <View style={{flex: 1}}>
-        <Text>Sending data...</Text>
-
-        <Button title="Hide modal" onPress={toggleModal} />
-      </View>
-    </Modal>
   );
 }
