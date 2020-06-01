@@ -80,7 +80,7 @@ export default function QRCamera() {
 const styles = StyleSheet.create({
   modalStyle: {
     // flex: 1,
-    height: '50%',
+    height: '25%',
     width: '95%',
     justifyContent: 'center', 
     alignItems: 'center',
