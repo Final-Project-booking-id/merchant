@@ -63,11 +63,14 @@ export default function QRCamera() {
     
       {/* Modal begins */}
       <Modal isVisible={isModalVisible}
-      onBackdropPress={() => setModalVisible(false)}>
+      onBackdropPress={() => {
+        goBack()
+        setModalVisible(false)
+        }}>
         <View style={styles.modalStyle}>
-          <Text style={styles.modalText}>Sending data...</Text>
+          <Text style={styles.modalText}>QR Scanned! Tap to return.</Text>
 
-          <Button style={styles.btn} title="Back" onPress={goBack} />
+          {/* <Button style={styles.btn} title="Back" onPress={goBack} /> */}
         </View>
       </Modal>
       {/* Modal end */}

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
@@ -7,13 +8,16 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function card(data) {
   const navigation = useNavigation()
+  const [modalText, setModalText] = useState('')
+  const [ModalVisible, setModalVisible] = useState(false)
 
   function goToQueue(id) {
     navigation.navigate('Queue', { id })
   }
 
   function goToDetail() {
-    navigation.navigate('Service')
+    setModalText(data.service.description)
+    setModalVisible(true)
   }
 
   return(
@@ -52,6 +56,18 @@ export default function card(data) {
             </TouchableOpacity>
           </LinearGradient>
         </View>
+
+        <Modal
+        isVisible={ModalVisible}
+        onBackdropPress={() => setModalVisible(false)}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={ styles.modalStyle }>
+                <Text style={ styles.modalText }>{data.service.name}</Text>
+                <Text style={ styles.desc }>Est. Time: {data.service.estimation_time}</Text>
+                <Text style={ styles.desc }>{data.service.description}</Text>
+            </View>
+        </View>
+        </Modal>
       </View>
   )
 }
@@ -129,5 +145,27 @@ const styles = StyleSheet.create({
   font: {
     color: '#eff2f6',
     fontWeight: '600'
+  },
+  modalStyle: {
+    // flex: 1,
+    height: '25%',
+    width: '95%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#3d4558'
+  },
+  modalBtn: {
+    width: 80,
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  modalText: {
+    marginLeft: 10,
+    color: '#eff2f6',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })
