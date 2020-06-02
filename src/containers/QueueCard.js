@@ -12,6 +12,12 @@ export default function card(data) {
   const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
+  // const readableDate = data.order.updatedAt
+
+  function readableDate () {
+    const date = data.order.updatedAt.split("T")
+    return date[0]
+  }
 
   function goToQueue(id) {
     navigation.navigate('Queue', { id })
@@ -44,7 +50,11 @@ export default function card(data) {
     <View style={styles.card}>
         <View>
             <Text style={styles.title}>{data.order.Customer.police_number}</Text>
-            <Text style={styles.desc}>{data.order.status}</Text>
+            {data.order.status === 'Pending' || data.order.status === 'OnProgress' ?
+            <Text style={styles.desc}>Is {data.order.status}</Text>
+            :
+            <Text style={styles.desc}>Completed on {readableDate()}</Text>
+            }
         </View>
         {data.order.status === 'Pending' ?
         <View style={styles.option}>
@@ -93,20 +103,21 @@ export default function card(data) {
         </View>
         :
         <View style={styles.option}>
-          <TouchableOpacity
-          >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
+            <View
+              color={'#eff2f6'}
               style={styles.primarybtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
             >
               {
-              data.order.status === 'finish' ? <Text style={styles.font}>Finished</Text> 
-              : <Text style={styles.font}>Cancelled</Text> 
+              data.order.status === 'finish' ? <Text style={{
+                color: '#eff2f6',
+                fontWeight: 'bold'
+              }}>Finished</Text> 
+              : <Text style={{
+                color: '#eff2f6',
+                fontWeight: 'bold'
+              }}>Cancelled</Text> 
               }
-            </LinearGradient>
-          </TouchableOpacity>
+            </View>
         </View>
         }
 
