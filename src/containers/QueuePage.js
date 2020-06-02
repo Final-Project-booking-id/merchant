@@ -39,40 +39,6 @@ function merchantPage({ route }) {
         </Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      <View style={styles.card}>
-        <View>
-            <Text style={styles.title}>F 1122 EE</Text>
-            <Text style={styles.desc}>On Going</Text>
-        </View>
-        <View style={styles.option}>
-          <TouchableOpacity
-            onPress={goToQueue}
-          >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.primarybtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
-            >
-              <Text style={styles.font}>Check Out</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* <LinearGradient
-            colors={['#f86674', '#f9af8b']}
-            style={styles.borderbtn}
-            start={{ x: 0.1, y: 0.1 }}
-            end={{ x: 1.0, y: 0.1 }}
-          >
-            <TouchableOpacity
-              style={styles.secondarybtn}
-              onPress={goToDetail}
-            >
-              <Text style={styles.font}>Cancel</Text>
-            </TouchableOpacity>
-          </LinearGradient> */}
-        </View>
-      </View>
       {queue.map(el => {
           return <QueueCard order={el} />
       })}

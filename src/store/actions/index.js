@@ -55,27 +55,31 @@ export const fetchQueue = (id) => {
     })
 }
 
-const verifyId = (token) => {
-    axios({
-        method: 'post',
-        url: baseUrl + '/verify',
-        data: {
-            token
-        }
-    })
-    .then(response => {
-        alert(`${response} received`);
-        delete response.iat
-        delete response.updatedAt
-        delete response.createdAt
-        response.status = 'On Going'
-        return axios ({ method: 'patch', url: baseUrl + `/queue/${response.id}`, data: response })
-    })
-    .then(response => {
-        console.log(response)
-    })
-    .catch(err => {
-        console.log(err)
+export const verifyId = (token) => {
+    return ((dispatch) => {
+        axios({
+            method: 'post',
+            url: baseUrl + '/verify',
+            data: {
+                token
+            }
+        })
+        .then(response => {
+            delete response.data.iat
+            delete response.data.updatedAt
+            delete response.data.createdAt
+            response.data.status = 'OnProgress'
+            // alert(`Order from ${response.data.Customer.police_number} is now ${response.data.status}`);
+            // console.log(response.data)
+            return axios ({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
+        })
+        .then(response => {
+            alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+            console.log(response.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     })
 }
 

@@ -5,10 +5,13 @@ import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateStatus } from '../store/actions'
 
 export default function card(data) {
   const navigation = useNavigation()
+  const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
+  const dispatch = useDispatch()
 
   function goToQueue(id) {
     navigation.navigate('Queue', { id })
@@ -23,15 +26,23 @@ export default function card(data) {
   }
 
   const cancelDetail = () => {
+    // dispatch(updateStatus(data.order.id, 'cancel'))
+    setModalText('Order cancelled')
     setModalVisible(true)
 }
+  const checkout = () => {
+    // dispatch(updateStatus(data.order.id, 'finish'))
+    setModalText('Order finished')
+    setModalVisible(true)
+  }
 
   return(
     <View style={styles.card}>
         <View>
-            <Text style={styles.title}>{data.order.CustomerId}</Text>
+            <Text style={styles.title}>{data.order.Customer.police_number}</Text>
             <Text style={styles.desc}>{data.order.status}</Text>
         </View>
+        {data.order.status === 'Pending' ?
         <View style={styles.option}>
           <TouchableOpacity
             onPress={goToCamera}
@@ -60,13 +71,29 @@ export default function card(data) {
             </TouchableOpacity>
           </LinearGradient>
         </View>
+        :
+        <View style={styles.option}>
+          <TouchableOpacity
+            onPress={checkout}
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.primarybtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              <Text style={styles.font}>Check Out</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+        }
 
         <Modal
         isVisible={ModalVisible}
         onBackdropPress={() => setModalVisible(false)}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <View style={ styles.modalStyle }>
-                <Text style={ styles.modalText }>Order Cancelled</Text>
+                <Text style={ styles.modalText }>{modalText}</Text>
             </View>
         </View>
         </Modal>
