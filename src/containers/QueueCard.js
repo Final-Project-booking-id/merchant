@@ -26,12 +26,16 @@ export default function card(data) {
   }
 
   const cancelDetail = () => {
-    // dispatch(updateStatus(data.order.id, 'cancel'))
+    const toCancel = data.order
+    toCancel.status = 'cancel'
+    dispatch(updateStatus(data.order.id, toCancel))
     setModalText('Order cancelled')
     setModalVisible(true)
 }
   const checkout = () => {
-    // dispatch(updateStatus(data.order.id, 'finish'))
+    const finished = data.order
+    finished.status = 'finish'
+    dispatch(updateStatus(data.order.id, finished))
     setModalText('Order finished')
     setModalVisible(true)
   }
@@ -72,6 +76,7 @@ export default function card(data) {
           </LinearGradient>
         </View>
         :
+        data.order.status === 'OnProgress' ?
         <View style={styles.option}>
           <TouchableOpacity
             onPress={checkout}
@@ -83,6 +88,23 @@ export default function card(data) {
               end={{ x: 1.0, y: 0.1 }}
             >
               <Text style={styles.font}>Check Out</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+        :
+        <View style={styles.option}>
+          <TouchableOpacity
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.primarybtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              {
+              data.order.status === 'finish' ? <Text style={styles.font}>Finished</Text> 
+              : <Text style={styles.font}>Cancelled</Text> 
+              }
             </LinearGradient>
           </TouchableOpacity>
         </View>

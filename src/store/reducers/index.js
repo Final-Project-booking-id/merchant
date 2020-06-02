@@ -11,7 +11,8 @@ const appState = {
         "close_time": "Sat May 30 2020 17:30:00"
     },
     services: [],
-    queues: []
+    queues: [],
+    history: []
 }
 
 export default function reducer(state = appState, action) {

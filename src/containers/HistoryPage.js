@@ -12,8 +12,11 @@ export default function historyPage({ route }) {
   const navigation = useNavigation()
   const { id } = route.params
   const dispatch = useDispatch()
+  // Karena ngutak-atik reducer ribet, lebih baik ambil nama service dari sini
   const services = useSelector(state => state.services)
-  const queue = useSelector(state => state.queues)
+  const index = id - 1
+  // End
+  const history = useSelector(state => state.history)
   const [ModalVisible, setModalVisible] = useState(false)
   
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function historyPage({ route }) {
   }, [dispatch])
 
   function goBack() {
-    alert('history page under construction')
+    navigation.navigate('Queue', { id })
   }
 
 
@@ -31,16 +34,19 @@ export default function historyPage({ route }) {
       <View style={styles.header}>
         <Text style={{
           color: '#eff2f6',
-          fontSize: 25,
+          fontSize: 21,
           fontWeight: '500'
         }}>History for:
-          <Text style={{
-            fontWeight: 'bold'
-          }}> Cuci Mobil</Text>
         </Text>
+          <Text style={{
+            color: '#eff2f6',
+            fontSize: 25,
+            fontWeight: '500',
+            fontWeight: 'bold'
+          }}>{services[index].name}</Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {queue.map(el => {
+      {history.map(el => {
           return <QueueCard order={el} />
       })}
       {/*  sampai sini */}

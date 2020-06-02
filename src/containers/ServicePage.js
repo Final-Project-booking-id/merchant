@@ -20,13 +20,6 @@ function merchantPage() {
     dispatch(fetchService(merchantId))
   }, [dispatch])
 
-  function goToQueue() {
-    const id = 1
-    navigation.navigate('Queue', { id })
-  }
-
-  
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>

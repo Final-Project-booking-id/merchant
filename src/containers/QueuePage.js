@@ -24,7 +24,7 @@ function merchantPage({ route }) {
   }, [dispatch])
 
   function accessHistory() {
-    alert('history page under construction')
+    navigation.navigate('History', { id })
   }
 
 

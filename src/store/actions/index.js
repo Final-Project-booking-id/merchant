@@ -74,7 +74,7 @@ export const verifyId = (token) => {
             return axios ({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
         })
         .then(response => {
-            alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+            // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
             console.log(response.data)
         })
         .catch(err => {
@@ -83,7 +83,21 @@ export const verifyId = (token) => {
     })
 }
 
-export const updateStatus = (id, status) => {
-
+export const updateStatus = (id, queue) => {
+    return ((dispatch) => {
+        axios({
+            method: 'patch',
+            url: baseUrl + `/queue/${id}`,
+            data: queue
+        })
+        .then(response => {
+            alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+            console.log(response.data)
+        })
+        .catch(err => {
+            alert(err)
+            console.log(err)
+        })
+    })
 }
 
