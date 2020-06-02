@@ -24,6 +24,6 @@ const verifyId = (token) => {
 }
 
 export const updateStatus = (id, status) => {
-
+    
 }
 
