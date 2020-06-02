@@ -5,7 +5,7 @@ import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchQueue } from "../store/actions";
+import { fetchHistory } from "../store/actions";
 import QueueCard from "./QueueCard"
 
 export default function historyPage({ route }) {
@@ -20,7 +20,7 @@ export default function historyPage({ route }) {
   const [ModalVisible, setModalVisible] = useState(false)
   
   useEffect(() => {
-    dispatch(fetchQueue(id))
+    dispatch(fetchHistory(id))
   }, [dispatch])
 
   function goBack() {

@@ -1,4 +1,4 @@
-import { SET_QUEUES, SET_SERVICES } from '../actions'
+import { SET_QUEUES, SET_SERVICES, SET_HISTORY } from '../actions'
 
 const appState = {
     merchantId: 1,
@@ -22,6 +22,8 @@ export default function reducer(state = appState, action) {
             return { ...state, queues: payload }
         case SET_SERVICES:
             return { ...state, services: payload }
+        case SET_HISTORY:
+            return { ...state, history: payload }
         default:
             return state
     }
