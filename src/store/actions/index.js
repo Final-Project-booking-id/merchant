@@ -5,6 +5,7 @@ const baseUrl = 'http://192.168.88.8:3000'
 
 export const SET_QUEUES = 'SET_QUEUES'
 export const SET_SERVICES = 'SET_SERVICES'
+export const SET_HISTORY = 'SET_HISTORY'
 
 // export const VERIFY_QR = 
 
@@ -19,6 +20,13 @@ export const setQueues = (data) => {
 export const setServices = (data) => {
     return {
         type: SET_SERVICES,
+        payload: data
+    }
+}
+
+export const setHistory = (data) => {
+    return {
+        type: SET_HISTORY,
         payload: data
     }
 }
@@ -55,6 +63,22 @@ export const fetchQueue = (id) => {
     })
 }
 
+export const fetchHistory = (id) => {
+    return ((dispatch) => {
+        axios({
+            method: 'GET',
+            url: baseUrl + `/queue/serviceHistory/${id}`
+        })
+        .then(response => {
+            console.log(response.data)
+            dispatch(setHistory(response.data))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+}
+
 export const verifyId = (token) => {
     return ((dispatch) => {
         axios({
@@ -74,7 +98,7 @@ export const verifyId = (token) => {
             return axios ({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
         })
         .then(response => {
-            alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+            // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
             console.log(response.data)
         })
         .catch(err => {
@@ -83,7 +107,21 @@ export const verifyId = (token) => {
     })
 }
 
-export const updateStatus = (id, status) => {
-
+export const updateStatus = (id, queue) => {
+    return ((dispatch) => {
+        axios({
+            method: 'patch',
+            url: baseUrl + `/queue/${id}`,
+            data: queue
+        })
+        .then(response => {
+            // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+            console.log(response.data)
+        })
+        .catch(err => {
+            alert(err)
+            console.log(err)
+        })
+    })
 }
 

@@ -1,51 +1,81 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchService } from "../store/actions";
-import ServiceCard from "./ServiceCard"
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHistory } from "../store/actions";
+import QueueCard from "./QueueCard"
 
-function merchantPage() {
+export default function historyPage({ route }) {
   const navigation = useNavigation()
-  const merchant = useSelector(state => state.merchant)
-  const merchantId = useSelector(state => state.merchantId)
-  const services = useSelector(state => state.services)
+  const { id } = route.params
   const dispatch = useDispatch()
+  // Karena ngutak-atik reducer ribet, lebih baik ambil nama service dari sini
+  const services = useSelector(state => state.services)
+  const index = id - 1
+  // End
+  const history = useSelector(state => state.history)
+  const [ModalVisible, setModalVisible] = useState(false)
+  
   useEffect(() => {
-    dispatch(fetchService(merchantId))
-  }, [])
-  useEffect(() => {
-    dispatch(fetchService(merchantId))
+    dispatch(fetchHistory(id))
   }, [dispatch])
 
+  function goBack() {
+    navigation.navigate('Queue', { id })
+  }
+
+
   return (
+    <>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={{
           color: '#eff2f6',
-          fontSize: 32,
-          fontWeight: 'bold'
-          }}>{merchant.name.toUpperCase()}</Text>
-        <Text style={{
-          color: '#eff2f6',
-          fontSize: 25,
+          fontSize: 21,
           fontWeight: '500'
-        }}>Your
-          <Text style={{
-            fontWeight: 'bold'
-          }}> Services</Text>
+        }}>History for:
         </Text>
+          <Text style={{
+            color: '#eff2f6',
+            fontSize: 25,
+            fontWeight: '500',
+            fontWeight: 'bold'
+          }}>{services[index].name}</Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {services.map(el => {
-        return <ServiceCard service={el}></ServiceCard>
-      })
-      }
+      {history.map(el => {
+          return <QueueCard order={el} />
+      })}
       {/*  sampai sini */}
-      
+        <View style={styles.option}>
+          <TouchableOpacity
+            onPress={goBack}
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.historyBtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              <Text style={styles.font}>Back to Queue</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+
     </View>
+    <Modal
+    isVisible={ModalVisible}
+    onBackdropPress={() => setModalVisible(false)}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={ styles.modalStyle }>
+            <Text style={ styles.modalText }>Order Cancelled</Text>
+        </View>
+    </View>
+    </Modal>
+    </>
   )
 }
 
@@ -82,10 +112,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row'
   },
-  primarybtn: {
-    width: 80,
+  historyBtn: { //Formerly primarybtn
+    width: 200,
     height: 50,
-    margin: 5,
+    margin: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5
@@ -122,7 +152,11 @@ const styles = StyleSheet.create({
   font: {
     color: '#eff2f6',
     fontWeight: '600'
+  },
+  modal: {
+      height: '25%',
+      width: '95%',
+      backgroundColor: 'white',
+      borderRadius: 10
   }
 })
-
-export default merchantPage

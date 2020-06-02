@@ -12,6 +12,12 @@ export default function card(data) {
   const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
+  // const readableDate = data.order.updatedAt
+
+  function readableDate () {
+    const date = data.order.updatedAt.split("T")
+    return date[0]
+  }
 
   function goToQueue(id) {
     navigation.navigate('Queue', { id })
@@ -26,12 +32,16 @@ export default function card(data) {
   }
 
   const cancelDetail = () => {
-    // dispatch(updateStatus(data.order.id, 'cancel'))
+    const toCancel = data.order
+    toCancel.status = 'cancel'
+    dispatch(updateStatus(data.order.id, toCancel))
     setModalText('Order cancelled')
     setModalVisible(true)
 }
   const checkout = () => {
-    // dispatch(updateStatus(data.order.id, 'finish'))
+    const finished = data.order
+    finished.status = 'finish'
+    dispatch(updateStatus(data.order.id, finished))
     setModalText('Order finished')
     setModalVisible(true)
   }
@@ -40,7 +50,11 @@ export default function card(data) {
     <View style={styles.card}>
         <View>
             <Text style={styles.title}>{data.order.Customer.police_number}</Text>
-            <Text style={styles.desc}>{data.order.status}</Text>
+            {data.order.status === 'Pending' || data.order.status === 'OnProgress' ?
+            <Text style={styles.desc}>Is {data.order.status}</Text>
+            :
+            <Text style={styles.desc}>Completed on {readableDate()}</Text>
+            }
         </View>
         {data.order.status === 'Pending' ?
         <View style={styles.option}>
@@ -72,6 +86,7 @@ export default function card(data) {
           </LinearGradient>
         </View>
         :
+        data.order.status === 'OnProgress' ?
         <View style={styles.option}>
           <TouchableOpacity
             onPress={checkout}
@@ -85,6 +100,24 @@ export default function card(data) {
               <Text style={styles.font}>Check Out</Text>
             </LinearGradient>
           </TouchableOpacity>
+        </View>
+        :
+        <View style={styles.option}>
+            <View
+              color={'#eff2f6'}
+              style={styles.primarybtn}
+            >
+              {
+              data.order.status === 'finish' ? <Text style={{
+                color: '#eff2f6',
+                fontWeight: 'bold'
+              }}>Finished</Text> 
+              : <Text style={{
+                color: '#eff2f6',
+                fontWeight: 'bold'
+              }}>Cancelled</Text> 
+              }
+            </View>
         </View>
         }
 
