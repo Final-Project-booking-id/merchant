@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useDispatch } from 'react-redux'
 import { verifyId } from '../store/actions'
 import { useNavigation } from '@react-navigation/native'
 import Modal from 'react-native-modal';
@@ -8,6 +9,7 @@ import Modal from 'react-native-modal';
 export default function QRCamera() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const dispatch = useDispatch()
   // const [qrdata, setQrdata] = useState('')
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation()
@@ -32,6 +34,7 @@ export default function QRCamera() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     if (typeof data == 'string') {
+      dispatch(verifyId(data))
       toggleModal()
       // verifyId(data) //Data nya berisi token
     }
