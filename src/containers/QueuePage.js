@@ -12,6 +12,10 @@ function merchantPage({ route }) {
   const navigation = useNavigation()
   const { id } = route.params
   const dispatch = useDispatch()
+  // Karena ngutak-atik reducer ribet, lebih baik ambil nama service dari sini
+  const services = useSelector(state => state.services)
+  const index = id - 1
+  // End
   const queue = useSelector(state => state.queues)
   const [ModalVisible, setModalVisible] = useState(false)
   
@@ -19,8 +23,8 @@ function merchantPage({ route }) {
     dispatch(fetchQueue(id))
   }, [dispatch])
 
-  function goToQueue() {
-    navigation.navigate('Queue')
+  function accessHistory() {
+    alert('history page under construction')
   }
 
 
@@ -35,7 +39,7 @@ function merchantPage({ route }) {
         }}>Service:
           <Text style={{
             fontWeight: 'bold'
-          }}> Cuci Mobil</Text>
+          }}> {services[index].name}</Text> 
         </Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
@@ -43,7 +47,20 @@ function merchantPage({ route }) {
           return <QueueCard order={el} />
       })}
       {/*  sampai sini */}
-      
+        <View style={styles.option}>
+          <TouchableOpacity
+            onPress={accessHistory}
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.historyBtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              <Text style={styles.font}>Order History</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
 
     </View>
     <Modal
@@ -92,10 +109,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row'
   },
-  primarybtn: {
-    width: 80,
+  historyBtn: { //Formerly primarybtn
+    width: 200,
     height: 50,
-    margin: 5,
+    margin: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5
