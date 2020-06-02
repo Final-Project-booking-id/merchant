@@ -49,6 +49,19 @@ function merchantPage({ route }) {
       {/*  sampai sini */}
         <View style={styles.option}>
           <TouchableOpacity
+            onPress={goToCamera}
+          >
+            <LinearGradient
+              colors={['#f86674', '#f9af8b']}
+              style={styles.historyBtn}
+              start={{ x: 0.1, y: 0.1 }}
+              end={{ x: 1.0, y: 0.1 }}
+            >
+              <Text style={styles.font}>Scan</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={accessHistory}
           >
             <LinearGradient
@@ -60,6 +73,7 @@ function merchantPage({ route }) {
               <Text style={styles.font}>Order History</Text>
             </LinearGradient>
           </TouchableOpacity>
+
         </View>
 
     </View>

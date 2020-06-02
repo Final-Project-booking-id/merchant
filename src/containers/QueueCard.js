@@ -5,10 +5,12 @@ import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateStatus } from '../store/actions'
+import { updateStatus, setQueues } from '../store/actions'
 
 export default function card(data) {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const currentQueue = useSelector(state => state.queues)
   const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
@@ -17,6 +19,17 @@ export default function card(data) {
   function readableDate () {
     const date = data.order.updatedAt.split("T")
     return date[0]
+  }
+
+  function changeCurrentQueues (id) {
+    const newQueue = currentQueue.filter(el => {
+      return el.id !== data.order.id
+    })
+    dispatch(setQueue(newQueue))
+  }
+
+  function goToQueue(id) {
+    navigation.navigate('Queue', { id })
   }
 
   function goToQueue(id) {
@@ -35,6 +48,7 @@ export default function card(data) {
     const toCancel = data.order
     toCancel.status = 'cancel'
     dispatch(updateStatus(data.order.id, toCancel))
+    changeCurrentQueues()
     setModalText('Order cancelled')
     setModalVisible(true)
 }
@@ -42,6 +56,7 @@ export default function card(data) {
     const finished = data.order
     finished.status = 'finish'
     dispatch(updateStatus(data.order.id, finished))
+    changeCurrentQueues()
     setModalText('Order finished')
     setModalVisible(true)
   }
@@ -58,18 +73,7 @@ export default function card(data) {
         </View>
         {data.order.status === 'Pending' ?
         <View style={styles.option}>
-          <TouchableOpacity
-            onPress={goToCamera}
-          >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.primarybtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
-            >
-              <Text style={styles.font}>Scan</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          
 
           <LinearGradient
             colors={['#f86674', '#f9af8b']}

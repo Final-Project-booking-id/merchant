@@ -1,6 +1,8 @@
 import axios from 'axios'
+import io from 'socket.io-client'
+let socket;
 
-const baseUrl = 'http://192.168.88.8:3000'
+const baseUrl = 'http://192.168.0.7:3000'
 
 
 export const SET_QUEUES = 'SET_QUEUES'
@@ -37,13 +39,13 @@ export const fetchService = (id) => {
             method: 'GET',
             url: baseUrl + `/service/${id}`,
         })
-        .then(response => {
-            console.log(response.data)
-            dispatch(setServices(response.data))
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(response => {
+                console.log(response.data)
+                dispatch(setServices(response.data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
 }
 
@@ -53,13 +55,13 @@ export const fetchQueue = (id) => {
             method: 'GET',
             url: baseUrl + `/queue/service/${id}`
         })
-        .then(response => {
-            console.log(response.data)
-            dispatch(setQueues(response.data))
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(response => {
+                console.log(response.data)
+                dispatch(setQueues(response.data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
 }
 
@@ -69,13 +71,13 @@ export const fetchHistory = (id) => {
             method: 'GET',
             url: baseUrl + `/queue/serviceHistory/${id}`
         })
-        .then(response => {
-            console.log(response.data)
-            dispatch(setHistory(response.data))
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(response => {
+                console.log(response.data)
+                dispatch(setHistory(response.data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
 }
 
@@ -88,40 +90,43 @@ export const verifyId = (token) => {
                 token
             }
         })
-        .then(response => {
-            delete response.data.iat
-            delete response.data.updatedAt
-            delete response.data.createdAt
-            response.data.status = 'OnProgress'
-            // alert(`Order from ${response.data.Customer.police_number} is now ${response.data.status}`);
-            // console.log(response.data)
-            return axios ({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
-        })
-        .then(response => {
-            // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
-            console.log(response.data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(response => {
+                delete response.data.iat
+                delete response.data.updatedAt
+                delete response.data.createdAt
+                response.data.status = 'OnProgress'
+                // alert(`Order from ${response.data.Customer.police_number} is now ${response.data.status}`);
+                // console.log(response.data)
+                return axios({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
+            })
+            .then(response => {
+                // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+                console.log(response.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
 }
 
 export const updateStatus = (id, queue) => {
     return ((dispatch) => {
+        socket = io(baseUrl)
         axios({
             method: 'patch',
             url: baseUrl + `/queue/${id}`,
             data: queue
         })
-        .then(response => {
-            // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
-            console.log(response.data)
-        })
-        .catch(err => {
-            alert(err)
-            console.log(err)
-        })
+            .then(response => {
+                // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
+                // console.log(response.data)
+                socket.emit("Client", 'updated')
+            })
+            .catch(err => {
+                alert(err)
+                console.log(err)
+            })
     })
 }
+
 

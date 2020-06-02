@@ -11,10 +11,6 @@ export default function card(data) {
   const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
 
-  function goToQueue(id) {
-    navigation.navigate('Queue', { id })
-  }
-
   function goToDetail() {
     setModalText(data.service.description)
     setModalVisible(true)

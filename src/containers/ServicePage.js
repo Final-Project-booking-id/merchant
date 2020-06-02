@@ -13,13 +13,13 @@ function merchantPage() {
   const merchantId = useSelector(state => state.merchantId)
   const services = useSelector(state => state.services)
   const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(fetchService(merchantId))
+  // }, [])
   useEffect(() => {
     dispatch(fetchService(merchantId))
-  }, [])
-  useEffect(() => {
-    dispatch(fetchService(merchantId))
-  }, [dispatch])
-
+  }, [dispatch, fetchService])
+  console.disableYellowBox = true
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,7 +27,7 @@ function merchantPage() {
           color: '#eff2f6',
           fontSize: 32,
           fontWeight: 'bold'
-          }}>{merchant.name.toUpperCase()}</Text>
+        }}>{merchant.name.toUpperCase()}</Text>
         <Text style={{
           color: '#eff2f6',
           fontSize: 25,
@@ -44,7 +44,7 @@ function merchantPage() {
       })
       }
       {/*  sampai sini */}
-      
+
     </View>
   )
 }

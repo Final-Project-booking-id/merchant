@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   historyBtn: { //Formerly primarybtn
-    width: 200,
+    width: 400,
     height: 50,
     margin: 15,
     justifyContent: 'center',
