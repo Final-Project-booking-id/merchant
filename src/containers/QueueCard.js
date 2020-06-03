@@ -9,7 +9,6 @@ import { updateStatus, setQueues } from '../store/actions'
 
 export default function card(data) {
   const navigation = useNavigation()
-  const dispatch = useDispatch()
   const currentQueue = useSelector(state => state.queues)
   const [modalText, setModalText] = useState('')
   const [ModalVisible, setModalVisible] = useState(false)
@@ -36,9 +35,7 @@ export default function card(data) {
     navigation.navigate('Queue', { id })
   }
 
-  function goToCamera() {
-    navigation.navigate('QRCamera')
-  }
+  
 
   function goToDetail() {
     navigation.navigate('Service')
@@ -68,7 +65,7 @@ export default function card(data) {
             {data.order.status === 'Pending' || data.order.status === 'OnProgress' ?
             <Text style={styles.desc}>Is {data.order.status}</Text>
             :
-            <Text style={styles.desc}>Completed on {readableDate()}</Text>
+            <Text style={styles.desc}>Updated at {readableDate()}</Text>
             }
         </View>
         {data.order.status === 'Pending' ?

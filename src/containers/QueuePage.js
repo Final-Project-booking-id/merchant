@@ -4,11 +4,13 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchQueue } from "../store/actions";
 import QueueCard from "./QueueCard"
 
-function merchantPage({ route }) {
+function merchantPage({ navigation: { goBack }, route }) {
   const navigation = useNavigation()
   const { id } = route.params
   const dispatch = useDispatch()
@@ -27,20 +29,39 @@ function merchantPage({ route }) {
     navigation.navigate('History', { id })
   }
 
+  function goToCamera() {
+    navigation.navigate('QRCamera')
+  }
 
   return (
     <>
     <View style={styles.container}>
       <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => goBack()}
+            style={{
+              height: 40,
+              justifyContent: 'center',
+              marginRight: 20
+            }}
+          >
+            <Text style={{ color: '#f74658', fontWeight: 'bold' }}>
+              Back
+            </Text>
+          </TouchableOpacity>
         <Text style={{
-          color: '#eff2f6',
-          fontSize: 25,
-          fontWeight: '500'
+          height: 40,
+          color: '#2b2b2b',
+          fontSize: 22.5,
+          textAlignVertical: 'center'
         }}>Service:
-          <Text style={{
-            fontWeight: 'bold'
-          }}> {services[index].name}</Text> 
         </Text>
+          <Text style={{
+            color: '#2b2b2b',
+            fontSize: 25,
+            fontWeight: '500',
+            fontWeight: 'bold'
+          }}>{services[index].name}</Text> 
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
       {queue.map(el => {
@@ -100,10 +121,14 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 100,
-    paddingLeft: 10,
-    paddingBottom: 10,
-    justifyContent: 'flex-end'
+    height: 130,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    borderRadius: 20,
+    // borderBottomLeftRadius: 25,
+    // borderBottomRightRadius: 25,
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
   },
   card: {
     width: '100%',
@@ -118,6 +143,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#30384d',
+  },
+  items: {
+    color: '#ffffff'
   },
   option: {
     display: 'flex',

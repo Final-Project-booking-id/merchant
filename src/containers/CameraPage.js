@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux'
 import { verifyId } from '../store/actions'
 import { useNavigation } from '@react-navigation/native'
 import Modal from 'react-native-modal';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
-export default function QRCamera() {
+export default function QRCamera({ navigation: { goBack } }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch()

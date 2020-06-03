@@ -16,6 +16,10 @@ export default function card(data) {
     setModalVisible(true)
   }
 
+  function goToQueue(id) {
+    navigation.navigate('Queue', { id })
+  }
+
   return(
     <View style={styles.card}>
         <View>
