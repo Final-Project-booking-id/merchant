@@ -1,6 +1,10 @@
 import axios from 'axios'
 import io from 'socket.io-client'
+import { Alert } from 'react-native';
+// import { useNavigation } from '@react-navigation/native'
 let socket;
+
+// const navigation = useNavigation()
 
 const baseUrl = 'http://192.168.88.8:3000'
 
@@ -105,7 +109,20 @@ export const verifyId = (token) => {
             })
             .catch(err => {
                 // console.log('masuk catch verify')
-                if(err.response.data.errors[0].message === "Not your queue's turn") alert('Not their turn yet')
+                if(err.response.data.errors[0].message === "Not your queue's turn") {
+                    Alert.alert(
+                        "Forbidden!",
+                        "Not this user turn yet.",
+                        [
+                            {
+                                text: "Back",
+                                onPress: () => {
+                                    // navigation.navigate("Service")
+                                }
+                            }
+                        ]
+                    )
+                }
                 // alert(JSON.stringify(err.response.data.errors[0].message))
                 console.log(err)
             })
