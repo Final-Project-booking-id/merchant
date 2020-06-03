@@ -118,7 +118,7 @@ export const verifyId = (token) => {
                 console.log(response.data)
             })
             .catch(err => {
-                dispatch(setCameraModal("User is still in queue!"))
+                dispatch(setCameraModal("Not their turn yet!"))
                 // if(err.response.data.errors[0].message === "Not your queue's turn") {
                 //     Alert.alert(
                 //         "Forbidden!",
