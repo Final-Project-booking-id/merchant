@@ -54,7 +54,7 @@ function merchantPage({ navigation: { goBack }, route }) {
           color: '#2b2b2b',
           fontSize: 22.5,
           textAlignVertical: 'center'
-        }}>Service:
+        }}>Queue for:
         </Text>
           <Text style={{
             color: '#2b2b2b',
@@ -68,12 +68,12 @@ function merchantPage({ navigation: { goBack }, route }) {
           return <QueueCard order={el} />
       })}
       {/*  sampai sini */}
-        <View style={styles.option}>
+        <View style={styles.featureCard}>
           <TouchableOpacity
             onPress={goToCamera}
           >
             <LinearGradient
-              colors={['#f86674', '#f9af8b']}
+              colors={['#f74658', '#f74658']}
               style={styles.historyBtn}
               start={{ x: 0.1, y: 0.1 }}
               end={{ x: 1.0, y: 0.1 }}
@@ -82,19 +82,19 @@ function merchantPage({ navigation: { goBack }, route }) {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={accessHistory}
+          <LinearGradient
+            colors={['#f74658', '#f74658']}
+            style={styles.borderbtn}
+            start={{ x: 0.1, y: 0.1 }}
+            end={{ x: 1.0, y: 0.1 }}
           >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.historyBtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
+            <TouchableOpacity
+              style={styles.secondarybtn}
+              onPress={accessHistory}
             >
-              <Text style={styles.font}>Order History</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
+              <Text style={styles.font}>History</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
 
     </View>
@@ -144,6 +144,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#30384d',
   },
+  featureCard: {
+    width: '100%',
+    height: 70,
+    marginTop: 10,
+    padding: 10,
+    // borderWidth: 1,
+    // borderColor: '#30384d',
+    borderRadius: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   items: {
     color: '#ffffff'
   },
@@ -152,29 +165,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   historyBtn: { //Formerly primarybtn
-    width: 200,
+    width: 140,
     height: 50,
     margin: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 25
   },
   secondarybtn: {
-    width: 78,
+    width: 138,
     height: 48,
     backgroundColor: '#30384d',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 25
   },
   borderbtn: {
     height: 50,
-    width: 80,
+    width: 140,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
-    margin: 5,
-    marginRight: 0
+    borderRadius: 25,
+    margin: 15
   },
   title: {
     marginLeft: 10,
@@ -190,7 +202,7 @@ const styles = StyleSheet.create({
   },
   font: {
     color: '#eff2f6',
-    fontWeight: '600'
+    fontWeight: 'bold'
   },
   modal: {
       height: '25%',

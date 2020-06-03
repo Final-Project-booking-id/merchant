@@ -23,7 +23,11 @@ export default function card(data) {
   return(
     <View style={styles.card}>
         <View>
+            {data.service.name.length < 11 ?
             <Text style={styles.title}>{data.service.name}</Text>
+            :
+            <Text style={styles.title}>{data.service.name.slice(0, 10) + '...'}</Text>
+            }
             <Text style={styles.desc}>Est. Time: {data.service.estimation_time} </Text>
         </View>
         <View style={styles.option}>
@@ -91,7 +95,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 70,
     marginTop: 10,
-    padding: 10,
+    padding: 0,
     borderWidth: 1,
     borderColor: '#30384d',
     borderRadius: 5,
@@ -127,8 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    margin: 5,
-    marginRight: 0
+    margin: 5
   },
   title: {
     marginLeft: 10,
