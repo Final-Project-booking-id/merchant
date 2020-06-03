@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchService } from "../store/actions";
 import ServiceCard from "./ServiceCard"
 
-function merchantPage() {
+function merchantPage({ navigation: { goBack } }) {
   const navigation = useNavigation()
   const merchant = useSelector(state => state.merchant)
   const merchantId = useSelector(state => state.merchantId)
@@ -23,6 +25,19 @@ function merchantPage() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity
+            style={{
+              height: 40,
+              justifyContent: 'center',
+              marginRight: 20
+            }}
+          >
+            <Text style={{ color: '#f9af8b', fontSize: 18, fontWeight: 'bold' }}>
+              Washry <Text style={{ color: '#ffffff', fontWeight: '500'}}>
+                Merchant
+              </Text>
+            </Text>
+          </TouchableOpacity>
         <Text style={{
           color: '#eff2f6',
           fontSize: 32,
@@ -59,10 +74,10 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 100,
+    height: 120,
     paddingLeft: 10,
-    paddingBottom: 10,
-    justifyContent: 'flex-end'
+    paddingBottom: 15,
+    justifyContent: 'space-between'
   },
   card: {
     width: '100%',

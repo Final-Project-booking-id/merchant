@@ -11,7 +11,7 @@ const Stack = createStackNavigator()
 export default function NavigationPage() {
     return (
         <NavigationContainer>
-            <Stack.Navigator headerMode='none'>
+            <Stack.Navigator initialRouteName ="Service" headerMode='none'>
                 <Stack.Screen name="Service" component={Service}></Stack.Screen>
                 <Stack.Screen name="Queue" component={Queue}></Stack.Screen>
                 <Stack.Screen name="History" component={History}></Stack.Screen>

@@ -3,12 +3,14 @@ import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHistory } from "../store/actions";
 import QueueCard from "./QueueCard"
 
-export default function historyPage({ route }) {
+export default function historyPage({ navigation: { goBack }, route }) {
   const navigation = useNavigation()
   const { id } = route.params
   const dispatch = useDispatch()
@@ -23,23 +25,31 @@ export default function historyPage({ route }) {
     dispatch(fetchHistory(id))
   }, [dispatch])
 
-  function goBack() {
-    navigation.navigate('Queue', { id })
-  }
-
-
   return (
     <>
     <View style={styles.container}>
       <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => goBack()}
+            style={{
+              height: 40,
+              justifyContent: 'center',
+              marginRight: 20
+            }}
+          >
+            <Text style={{ color: '#f74658', fontWeight: 'bold' }}>
+              Back
+            </Text>
+          </TouchableOpacity>
         <Text style={{
-          color: '#eff2f6',
+          height: 40,
+          color: '#2b2b2b',
           fontSize: 21,
-          fontWeight: '500'
+          textAlignVertical: 'center'
         }}>History for:
         </Text>
           <Text style={{
-            color: '#eff2f6',
+            color: '#2b2b2b',
             fontSize: 25,
             fontWeight: '500',
             fontWeight: 'bold'
@@ -89,10 +99,14 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 100,
-    paddingLeft: 10,
-    paddingBottom: 10,
-    justifyContent: 'flex-end'
+    height: 130,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    borderRadius: 20,
+    // borderBottomLeftRadius: 25,
+    // borderBottomRightRadius: 25,
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
   },
   card: {
     width: '100%',

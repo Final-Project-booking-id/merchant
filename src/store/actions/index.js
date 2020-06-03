@@ -2,7 +2,7 @@ import axios from 'axios'
 import io from 'socket.io-client'
 let socket;
 
-const baseUrl = 'http://192.168.0.7:3000'
+const baseUrl = 'http://192.168.88.8:3000'
 
 
 export const SET_QUEUES = 'SET_QUEUES'
