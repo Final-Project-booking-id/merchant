@@ -60,19 +60,20 @@ export default function historyPage({ navigation: { goBack }, route }) {
           return <QueueCard order={el} />
       })}
       {/*  sampai sini */}
-        <View style={styles.option}>
-          <TouchableOpacity
-            onPress={goBack}
+        <View style={styles.featureCard}>
+        <LinearGradient
+            colors={['#f74658', '#f74658']}
+            style={styles.borderbtn}
+            start={{ x: 0.1, y: 0.1 }}
+            end={{ x: 1.0, y: 0.1 }}
           >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.historyBtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
+            <TouchableOpacity
+              style={styles.secondarybtn}
+              onPress={goBack}
             >
-              <Text style={styles.font}>Back to Queue</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+              <Text style={styles.font}>Back To Queue</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
 
     </View>
@@ -122,34 +123,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#30384d',
   },
+  featureCard: {
+    width: '100%',
+    height: 70,
+    marginTop: 10,
+    padding: 10,
+    // borderWidth: 1,
+    // borderColor: '#30384d',
+    borderRadius: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   option: {
     display: 'flex',
     flexDirection: 'row'
   },
   historyBtn: { //Formerly primarybtn
-    width: 400,
+    width: 280,
     height: 50,
     margin: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 25
   },
   secondarybtn: {
-    width: 78,
+    width: 278,
     height: 48,
     backgroundColor: '#30384d',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 25
   },
   borderbtn: {
     height: 50,
-    width: 80,
+    width: 280,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
-    margin: 5,
-    marginRight: 0
+    borderRadius: 25,
+    margin: 15
   },
   title: {
     marginLeft: 10,
