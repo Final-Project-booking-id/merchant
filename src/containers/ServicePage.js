@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
@@ -15,14 +15,33 @@ function merchantPage({ navigation: { goBack } }) {
   const merchantId = useSelector(state => state.merchantId)
   const services = useSelector(state => state.services)
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(true)
   // useEffect(() => {
   //   dispatch(fetchService(merchantId))
   // }, [])
   useEffect(() => {
     dispatch(fetchService(merchantId))
+    setTimeout(function(){ setIsLoading(false) }, 2000);
   }, [dispatch, fetchService])
+
+  useEffect(() => {
+    setTimeout(function(){ setIsLoading(false) }, 2000);
+  }, [services])
+
   console.disableYellowBox = true
-  return (
+  if(isLoading) return (
+    <View style={styles.containerLoading}>
+      <Text style={{ color: '#f9af8b', fontSize: 36, fontWeight: 'bold' }}>
+        Washry <Text style={{ color: '#ffffff', fontWeight: '500'}}>
+          Merchant
+        </Text>
+      </Text>
+      <Text style={{ color: '#ffffff', fontSize: 18, fontWeight: 'bold' }}>
+        Now Loading...
+      </Text>
+    </View>
+  )
+  else return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
@@ -37,6 +56,7 @@ function merchantPage({ navigation: { goBack } }) {
                 Merchant
               </Text>
             </Text>
+            
           </TouchableOpacity>
         <Text style={{
           color: '#eff2f6',
@@ -71,6 +91,15 @@ const styles = StyleSheet.create({
     paddingTop: Constant.statusBarHeight,
     padding: 15,
     fontFamily: 'monospace'
+  },
+  containerLoading: {
+    flex: 1,
+    backgroundColor: '#3d4558',
+    paddingTop: Constant.statusBarHeight,
+    padding: 15,
+    fontFamily: 'monospace',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   header: {
     width: '100%',
