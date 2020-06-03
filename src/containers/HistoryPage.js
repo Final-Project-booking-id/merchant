@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 // import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHistory } from "../store/actions";
 import QueueCard from "./QueueCard"
@@ -56,9 +57,11 @@ export default function historyPage({ navigation: { goBack }, route }) {
           }}>{services[index].name}</Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {history.map(el => {
-          return <QueueCard order={el} />
-      })}
+      <ScrollView>
+        {history.map(el => {
+            return <QueueCard order={el} />
+        })}
+      </ScrollView>
       {/*  sampai sini */}
         <View style={styles.featureCard}>
         <LinearGradient
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingBottom: 20,
     borderRadius: 20,
+    marginBottom: 15,
     // borderBottomLeftRadius: 25,
     // borderBottomRightRadius: 25,
     justifyContent: 'space-between',

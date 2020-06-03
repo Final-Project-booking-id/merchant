@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { ScrollView } from 'react-native-gesture-handler'
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 // import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,9 +65,11 @@ function merchantPage({ navigation: { goBack }, route }) {
           }}>{services[index].name}</Text> 
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {queue.map(el => {
-          return <QueueCard order={el} />
-      })}
+      <ScrollView>
+        {queue.map(el => {
+            return <QueueCard order={el} />
+        })}
+      </ScrollView>
       {/*  sampai sini */}
         <View style={styles.featureCard}>
           <TouchableOpacity
@@ -125,6 +128,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingBottom: 20,
     borderRadius: 20,
+    marginBottom: 15,
     // borderBottomLeftRadius: 25,
     // borderBottomRightRadius: 25,
     justifyContent: 'space-between',

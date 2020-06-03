@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 // import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchService } from "../store/actions";
 import ServiceCard from "./ServiceCard"
@@ -74,10 +75,12 @@ function merchantPage({ navigation: { goBack } }) {
         </Text>
       </View>
       {/* Ini nanti tinggal di map berdasarkan jumlah merchat */}
-      {services.map(el => {
-        return <ServiceCard service={el}></ServiceCard>
-      })
-      }
+      <ScrollView>
+        {services.map(el => {
+          return <ServiceCard service={el}></ServiceCard>
+        })
+        }
+      </ScrollView>
       {/*  sampai sini */}
 
     </View>
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
     height: 120,
     paddingLeft: 10,
     paddingBottom: 15,
+    marginBottom: 15,
     justifyContent: 'space-between'
   },
   card: {

@@ -174,7 +174,8 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 5,
+    marginRight: 0
   },
   secondarybtn: {
     width: 78,
