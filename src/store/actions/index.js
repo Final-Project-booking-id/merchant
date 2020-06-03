@@ -6,7 +6,9 @@ let socket;
 
 // const navigation = useNavigation()
 
-const baseUrl = 'http://192.168.88.8:3000'
+// const baseUrl = 'http://192.168.0.7:3000'
+const baseUrl = "https://hidden-beyond-33650.herokuapp.com"
+
 
 
 export const SET_QUEUES = 'SET_QUEUES'
