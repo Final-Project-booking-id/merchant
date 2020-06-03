@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import io from 'socket.io-client'
 import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Constant from 'expo-constants'
@@ -11,10 +12,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchQueue } from "../store/actions";
 import QueueCard from "./QueueCard"
 
+const ENDPOINT = 'http://localhost:3000'
+
 function merchantPage({ navigation: { goBack }, route }) {
   const navigation = useNavigation()
   const { id } = route.params
   const dispatch = useDispatch()
+  const socket = io()
   // Karena ngutak-atik reducer ribet, lebih baik ambil nama service dari sini
   const services = useSelector(state => state.services)
   const index = id - 1
@@ -23,6 +27,25 @@ function merchantPage({ navigation: { goBack }, route }) {
   const [ModalVisible, setModalVisible] = useState(false)
   
   useEffect(() => {
+    dispatch(fetchQueue(id))
+  }, [dispatch])
+
+  // useEffect(() => {
+  //   console.log(socket)
+  //   socket = io(ENDPOINT)
+  //   socket.on("Server", data => {
+  //     console.log('merchant gagal nerima proses socket')
+  //     if (data.toLowerCase() === 'updated') {
+  //       console.log('merchant nerima socket')
+  //       return refetchQueues()
+  //     }
+  //   })
+  //   return () => {
+  //     socket.off()
+  //   }
+  // }, [ENDPOINT])
+
+  const refetchQueues = useCallback(() => {
     dispatch(fetchQueue(id))
   }, [dispatch])
 

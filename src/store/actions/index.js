@@ -104,6 +104,9 @@ export const verifyId = (token) => {
                 console.log(response.data)
             })
             .catch(err => {
+                // console.log('masuk catch verify')
+                if(err.response.data.errors[0].message === "Not your queue's turn") alert('Not their turn yet')
+                // alert(JSON.stringify(err.response.data.errors[0].message))
                 console.log(err)
             })
     })
