@@ -12,9 +12,16 @@ const baseUrl = 'http://192.168.88.8:3000'
 export const SET_QUEUES = 'SET_QUEUES'
 export const SET_SERVICES = 'SET_SERVICES'
 export const SET_HISTORY = 'SET_HISTORY'
+export const SET_CAMERA_MODAL = 'SET_CAMERA_MODAL'
 
 // export const VERIFY_QR = 
 
+export const setCameraModal = (data) => {
+    return {
+        type: SET_CAMERA_MODAL,
+        payload: data
+    }
+}
 
 export const setQueues = (data) => {
     return {
@@ -87,6 +94,7 @@ export const fetchHistory = (id) => {
 
 export const verifyId = (token) => {
     return ((dispatch) => {
+        return new Promise((resolve, reject) => {
         axios({
             method: 'post',
             url: baseUrl + '/verify',
@@ -101,31 +109,36 @@ export const verifyId = (token) => {
                 response.data.status = 'OnProgress'
                 // alert(`Order from ${response.data.Customer.police_number} is now ${response.data.status}`);
                 // console.log(response.data)
+                resolve()
                 return axios({ method: 'patch', url: baseUrl + `/queue/${response.data.id}`, data: response.data })
             })
             .then(response => {
+                dispatch(setCameraModal("QR Scanned successfully"))
                 // alert(`Update! Order id ${response.data.id} is now ${response.data.status}`)
                 console.log(response.data)
             })
             .catch(err => {
-                // console.log('masuk catch verify')
-                if(err.response.data.errors[0].message === "Not your queue's turn") {
-                    Alert.alert(
-                        "Forbidden!",
-                        "Not this user turn yet.",
-                        [
-                            {
-                                text: "Back",
-                                onPress: () => {
-                                    // navigation.navigate("Service")
-                                }
-                            }
-                        ]
-                    )
-                }
+                dispatch(setCameraModal("User is still in queue!"))
+                // if(err.response.data.errors[0].message === "Not your queue's turn") {
+                //     Alert.alert(
+                //         "Forbidden!",
+                //         "Not this user turn yet.",
+                //         [
+                //             {
+                //                 text: "Back",
+                //                 onPress: () => {
+                //                     // navigation.navigate("Service")
+                //                 }
+                //             }
+                //         ]
+                //     )
+                // }
                 // alert(JSON.stringify(err.response.data.errors[0].message))
                 console.log(err)
+                reject()
             })
+    })
+        
     })
 }
 

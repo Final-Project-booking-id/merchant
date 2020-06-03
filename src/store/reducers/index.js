@@ -1,4 +1,4 @@
-import { SET_QUEUES, SET_SERVICES, SET_HISTORY } from '../actions'
+import { SET_QUEUES, SET_SERVICES, SET_HISTORY, SET_CAMERA_MODAL } from '../actions'
 
 const appState = {
     merchantId: 1,
@@ -12,7 +12,8 @@ const appState = {
     },
     services: [],
     queues: [],
-    history: []
+    history: [],
+    cameraModal: ''
 }
 
 export default function reducer(state = appState, action) {
@@ -24,6 +25,8 @@ export default function reducer(state = appState, action) {
             return { ...state, services: payload }
         case SET_HISTORY:
             return { ...state, history: payload }
+        case SET_CAMERA_MODAL:
+            return { ...state, cameraModal: payload }
         default:
             return state
     }
