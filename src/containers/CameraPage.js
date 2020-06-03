@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     width: '95%',
     justifyContent: 'center', 
     alignItems: 'center',
-    backgroundColor: '#3d4558'
+    backgroundColor: '#3d4558',
+    borderRadius: 5
   },
   modalBtn: {
     width: 80,
