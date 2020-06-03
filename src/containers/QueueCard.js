@@ -15,16 +15,16 @@ export default function card(data) {
   const dispatch = useDispatch()
   // const readableDate = data.order.updatedAt
 
-  function readableDate () {
+  function readableDate() {
     const date = data.order.updatedAt.split("T")
     return date[0]
   }
 
-  function changeCurrentQueues (id) {
+  function changeCurrentQueues(id) {
     const newQueue = currentQueue.filter(el => {
       return el.id !== data.order.id
     })
-    dispatch(setQueue(newQueue))
+    dispatch(setQueues(newQueue))
   }
 
   function goToQueue(id) {
@@ -35,7 +35,7 @@ export default function card(data) {
     navigation.navigate('Queue', { id })
   }
 
-  
+
 
   function goToDetail() {
     navigation.navigate('Service')
@@ -48,7 +48,7 @@ export default function card(data) {
     changeCurrentQueues()
     setModalText('Order cancelled')
     setModalVisible(true)
-}
+  }
   const checkout = () => {
     const finished = data.order
     finished.status = 'finish'
@@ -58,19 +58,19 @@ export default function card(data) {
     setModalVisible(true)
   }
 
-  return(
+  return (
     <View style={styles.card}>
-        <View>
-            <Text style={styles.title}>{data.order.Customer.police_number}</Text>
-            {data.order.status === 'Pending' || data.order.status === 'OnProgress' ?
-            <Text style={styles.desc}>Is {data.order.status}</Text>
-            :
-            <Text style={styles.desc}>Updated at {readableDate()}</Text>
-            }
-        </View>
-        {data.order.status === 'Pending' ?
+      <View>
+        <Text style={styles.title}>{data.order.Customer.police_number}</Text>
+        {data.order.status === 'Pending' || data.order.status === 'OnProgress' ?
+          <Text style={styles.desc}>Is {data.order.status}</Text>
+          :
+          <Text style={styles.desc}>Updated at {readableDate()}</Text>
+        }
+      </View>
+      {data.order.status === 'Pending' ?
         <View style={styles.option}>
-          
+
 
           <LinearGradient
             colors={['#f86674', '#f9af8b']}
@@ -88,50 +88,50 @@ export default function card(data) {
         </View>
         :
         data.order.status === 'OnProgress' ?
-        <View style={styles.option}>
-          <TouchableOpacity
-            onPress={checkout}
-          >
-            <LinearGradient
-              colors={['#f86674', '#f9af8b']}
-              style={styles.primarybtn}
-              start={{ x: 0.1, y: 0.1 }}
-              end={{ x: 1.0, y: 0.1 }}
+          <View style={styles.option}>
+            <TouchableOpacity
+              onPress={checkout}
             >
-              <Text style={styles.font}>Check Out</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-        :
-        <View style={styles.option}>
+              <LinearGradient
+                colors={['#f86674', '#f9af8b']}
+                style={styles.primarybtn}
+                start={{ x: 0.1, y: 0.1 }}
+                end={{ x: 1.0, y: 0.1 }}
+              >
+                <Text style={styles.font}>Check Out</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+          :
+          <View style={styles.option}>
             <View
               color={'#eff2f6'}
               style={styles.primarybtn}
             >
               {
-              data.order.status === 'finish' ? <Text style={{
-                color: '#eff2f6',
-                fontWeight: 'bold'
-              }}>Finished</Text> 
-              : <Text style={{
-                color: '#eff2f6',
-                fontWeight: 'bold'
-              }}>Cancelled</Text> 
+                data.order.status === 'finish' ? <Text style={{
+                  color: '#eff2f6',
+                  fontWeight: 'bold'
+                }}>Finished</Text>
+                  : <Text style={{
+                    color: '#eff2f6',
+                    fontWeight: 'bold'
+                  }}>Cancelled</Text>
               }
             </View>
-        </View>
-        }
+          </View>
+      }
 
-        <Modal
+      <Modal
         isVisible={ModalVisible}
         onBackdropPress={() => setModalVisible(false)}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <View style={ styles.modalStyle }>
-                <Text style={ styles.modalText }>{modalText}</Text>
-            </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.modalStyle}>
+            <Text style={styles.modalText}>{modalText}</Text>
+          </View>
         </View>
-        </Modal>
-      </View>
+      </Modal>
+    </View>
   )
 }
 
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: '25%',
     width: '95%',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3d4558'
   },
